@@ -1,0 +1,27 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Dummy Repetitions</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @dummy_repetitions.each do |dummy_repetition| %>
+      <tr>
+        <td><%= dummy_repetition.title %></td>
+        <td><%= link_to 'Show', dummy_repetition %></td>
+        <td><%= link_to 'Edit', edit_dummy_repetition_path(dummy_repetition) %></td>
+        <td><%= link_to 'Destroy', dummy_repetition, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Dummy Repetition', new_dummy_repetition_path %>

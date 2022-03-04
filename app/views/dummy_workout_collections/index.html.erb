@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Dummy Workout Collections</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Exercise</th>
+      <th>Dummy repetition</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @dummy_workout_collections.each do |dummy_workout_collection| %>
+      <tr>
+        <td><%= dummy_workout_collection.exercise_id %></td>
+        <td><%= dummy_workout_collection.dummy_repetition_id %></td>
+        <td><%= link_to 'Show', dummy_workout_collection %></td>
+        <td><%= link_to 'Edit', edit_dummy_workout_collection_path(dummy_workout_collection) %></td>
+        <td><%= link_to 'Destroy', dummy_workout_collection, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Dummy Workout Collection', new_dummy_workout_collection_path %>

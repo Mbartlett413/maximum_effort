@@ -1,0 +1,108 @@
+<h1>New Repetition</h1>
+
+<%= render 'form', repetition: @repetition %>
+
+<%= link_to 'Back', repetitions_path %>
+
+
+<div>
+	<h1 style="text-align:center;">build <i class="fa fa-plus" id="add_collection" onclick="add_row()"></i></h1>
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<td>Set Value</td>
+				<td>Percent or Pounds</td>
+				<td>Rep Value</td>
+				<td>Remove Row</td>
+			</tr>
+		</thead>
+        <tbody id="input_div">
+          <tr id="input_fields">
+				<td><input id="set_value" class="set_values" type="" name=""></td>
+				<td>
+					<select id="percent" class="percents">
+						<option value="percent" >%</option>
+						<option value="pounds" >Pounds</option>
+					</select>
+				</td>
+				<td ><input id="rep_value" class="rep_values" type="" name=""></td>
+				<td></td>
+			</tr>
+		</tbody>
+	</table>
+
+	<button onclick="submit_data()">out of control</button>
+</div>
+
+<script type="text/javascript">
+	var rep_title = document.getElementById('repetition_title');
+	var add_collection = document.getElementById('add_collection');
+	var workout_input_fields = document.getElementById('input_fields');
+	var workout_input_div = document.getElementById('input_div');
+	var clickCountInput = 0
+
+	function add_row(){
+		add_collection = document.getElementById('add_collection');
+	      clickCountInput += 1
+	      var cloneInputDiv = workout_input_fields.cloneNode(true);
+	      var cloneDivSelectTypeInputZERO = cloneInputDiv.children[0].firstElementChild
+	      var cloneDivSelectTypeInputONE = cloneInputDiv.children[1].firstElementChild
+	      var cloneDivSelectTypeInputTWO = cloneInputDiv.children[2].firstElementChild
+
+
+	      cloneDivSelectTypeInputZERO.id = "set_value" + '_' + clickCountInput
+	      cloneDivSelectTypeInputONE.id = "percent" + '_' + clickCountInput
+	      cloneDivSelectTypeInputTWO.id = "rep_value" + '_' + clickCountInput
+
+	      cloneInputDiv.id = "input_div_" + clickCountInput //this needs to be randomized/unique
+	      workout_input_div.appendChild(cloneInputDiv);
+	}
+
+	function remove_row(){
+
+	}
+
+	function submit_data(){
+
+		var sets = document.getElementsByClassName('set_values')
+        sets_array = []
+        for (var i =0; i < sets.length; i++){
+          sets_array.push(sets[i].value)
+        };
+
+		var percents = document.getElementsByClassName('percents')
+        percent_array = []
+        for (var i =0; i < percents.length; i++){
+          exercise_id = percents[i].options[percents[i].selectedIndex].value
+          percent_array.push(exercise_id)
+        };
+
+		var reps = document.getElementsByClassName('rep_values')
+        reps_array = []
+        for (var i =0; i < reps.length; i++){
+          reps_array.push(reps[i].value)
+        };
+
+		console.log("Ican twait", sets_array)
+		console.log("Ican twait", percent_array)
+		console.log("Ican twait", reps_array)
+		console.log("Ican twait", rep_title.value)
+
+            var mydata = {
+                title: rep_title.value,
+                percent_array: percent_array,
+                sets: sets_array,
+                reps: reps_array
+            }   
+
+             Rails.ajax({
+                  type: "POST", 
+                  url: "/repetitions", 
+                  data: new URLSearchParams(mydata).toString(), 
+              })
+
+
+
+	}
+	
+</script>

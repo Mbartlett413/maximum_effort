@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  dummy_repetition: one
+  set_value: 1
+  percent_based: false
+  rep_value: 1
+
+two:
+  dummy_repetition: two
+  set_value: 1
+  percent_based: false
+  rep_value: 1

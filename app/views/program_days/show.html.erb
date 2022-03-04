@@ -1,0 +1,117 @@
+<div class=" offset-1 col-xl-10 col-lg-10 pull-2">
+        <div class="card shadow mb-4">
+            <!-- Card Header - Dropdown -->
+            <div
+                class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary"><%= @program_day.title %></h6>
+                <ul class="nav justify-content-end">
+                  <li class="nav-item">
+                      <%= link_to 'Edit', edit_program_day_path(@program_day), class: 'nav-link' %> 
+                  </li>
+                  <li class="nav-item">
+                      <%= link_to 'Back', program_days_path, class: 'nav-link' %> 
+                  </li>
+                </ul>
+
+            </div>
+            <!-- Card Body -->
+            <div class="card-body">
+               <p>Active: <%= @program_day.active_day %> </p>
+                <table class="table table-striped"> 
+                  <thead>
+                    <tr>
+                      <td>Exercise</td>
+                      <td>Rep Scheme</td>
+                      <td>BreakDown</td>
+                      <td>Coaches Notes</td>
+                      <td>Athlete Notes</td>
+                    </tr>
+                  </thead> 
+
+                  <tbody>
+                    <% @program_day.dummy_workout.dummy_workout_collections.each do |x| %>
+                      <tr>
+                        <td>
+                          <%= Exercise.find(x.exercise_id).title %>
+                        </td>
+                        <td>
+                          <%= DummyRepetition.find(x.dummy_repetition_id).title %>
+                        </td>
+                        <td>
+                          <% DummyRepetition.find(x.dummy_repetition_id).dummy_repetition_collections.each do |drc| %>
+                              <%= "#{drc.set_value}" + "#{ drc.percent_based == true ? '%' : 'lbs'}" + "#{drc.rep_value}" %>
+                          <% end %>
+                        </td> 
+                        <td>
+<button class="btn btn-primary" onclick="see_notes( '<%= x.coach_notes %> ')" >Coaches Notes </button>
+                         
+                            
+                        </td>
+                        <td>
+                        <button class="btn btn-primary" onclick="add_notes(<%= x.id %>)">Add Notes </button>
+                        </td>
+                      </tr>
+                    <% end %>
+                  </tbody>
+
+                </table>
+
+            </div>
+      </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="program_day_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modify Program</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="toggle_dwc_update">
+
+
+      </div>
+      <div class="modal-footer">
+        <h1>Stay Strong</h1>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  function see_notes(notes){
+    console.log("notes", notes)
+    $('#program_day_modal').modal('toggle')
+
+    modal_section = document.getElementById('toggle_dwc_update');
+
+    console.log("here", modal_section)
+
+    new_element = document.createElement("p");
+    new_element.innerHTML = notes;
+    modal_section.appendChild(new_element);
+
+
+
+
+  }
+
+  function add_notes(dwc_id){
+    console.log("notes", dwc_id)
+    $('#program_day_modal').modal('toggle')
+
+            var mydata = {
+              dwc_id: dwc_id
+            }   
+
+             Rails.ajax({
+                  type: "POST", 
+                  url: "/add_athlete_notes", 
+                  data: new URLSearchParams(mydata).toString(), 
+              })
+  }
+
+</script>

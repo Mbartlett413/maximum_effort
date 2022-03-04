@@ -1,0 +1,44 @@
+  <div class="row">
+    <% @programs.each do |program| %>
+        <div class="col-lg-10 col-md-10 col-sm-10 offset-1 d-sm-inline-block">
+            <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div
+                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary"> Program: <%= program.title %> </h6>
+                    <ul class="nav justify-content-end">
+                      <li class="nav-item">
+                          <%= link_to 'Show', program, class: 'nav-link' %>
+                        </li>
+                      <li class="nav-item">
+                        <%= link_to 'Edit', edit_program_path(program), class: 'nav-link' %>
+                      </li>
+                      <li class="nav-item">
+                        <%= link_to 'Destroy', program, method: :delete, data: { confirm: 'Are you sure?' }, class: 'nav-link' %>
+                        </li>
+                    </ul>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                  <% program.program_weeks.each do |week| %>
+                    <%= link_to week.title, program_week_path(week.id), class: 'nav-link' %>
+                      <ul class="nav">
+                        <% day_counter = 1 %>
+                        <% week.program_days.each do |day| %>
+                          <li class="nav-item">
+                            <%= link_to day_counter, program_day_path(day.id), class: 'nav-link' %>
+
+                          </li>
+                          <% day_counter+=1 %>
+                        <% end %>
+                      </ul>
+                  <% end %>
+                </div>
+              </div>
+          </div>
+    <% end %>
+  </div>
+
+<hr>
+
+<%= link_to 'New Program', new_program_path %>

@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @program_workout.title %>
+</p>
+
+<p>
+  <strong>Workout notes:</strong>
+  <%= @program_workout.workout_notes %>
+</p>
+  <p>Exercise Collection</p>
+ <table class="table table-striped" >
+    <thead>
+      <tr>
+        <td>Exercise</td>
+        <td >Rep Set</td>
+      </tr>
+    </thead>
+    <tbody>
+      <% @program_workout.exercise_collections.each do |ec| %>
+
+        <tr>
+          <td> <%= Exercise.find(ec.exercise_id).title %> </td>
+          <td>
+            <% Repetition.find(ec.repetition_id).repetition_collections.each do |rc| %>
+               <%= "#{rc.set_value}" + "#{rc.percent_based == true ? '%' : 'pounds'}" + "#{rc.rep_value}" %>,
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+</table>
+
+<%= link_to 'Back', program_workouts_path %>

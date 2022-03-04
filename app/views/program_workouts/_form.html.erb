@@ -1,0 +1,107 @@
+<div class="container">
+	<div class="row">
+		<div class="col">
+			<%= simple_form_for(@program_workout) do |f| %>
+			  <%= f.error_notification %>
+			  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+
+			  <div class="form-inputs">
+			    <%= f.input :title %>
+			    <%= f.input :workout_notes %>
+			  </div>
+
+			  <div class="form-actions">
+			    <%= f.button :submit %> 
+			  </div>
+			<% end %>
+		</div>
+	</div>
+
+  <div class="row">
+    <div class="col">
+      <h5 style="text-align: center;">Use This For Adding <i class="fa fa-plus" id="add_collection"></i></h5>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <td>exercise_id</td>
+            <td>repetition_id</td>
+          </tr>
+        </thead>
+        <tbody id="input_div">
+          <tr id="input_fields">
+            <td>
+              <select id="exercise_selection" class="exercises_selected">
+                <%= options_for_select(@exercises.collect{ |u| [u.title, u.id]}) %>
+              </select>
+            </td> 
+            <td>
+              <select id="repetition_selection" class="repetition_selected">
+                <%= options_for_select(@repetitions.collect{ |u| [u.title, u.id]}) %>
+              </select>
+            </td> 
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <button type="submit" class="btn btn-primary" id="submitWorkout">Submit</button>
+</div>
+
+</div> 
+
+
+<script type="text/javascript">
+  var add_collection = document.getElementById('add_collection');
+  var workout_input_fields = document.getElementById('input_fields');
+  var workout_input_div = document.getElementById('input_div');
+  var submitWorkout = document.getElementById('submitWorkout');
+  var workout_title = document.getElementById('program_workout_title');
+  var workout_notes = document.getElementById('program_workout_workout_notes');
+
+  var exercises_selected = document.getElementsByClassName('exercises_selected');
+  var rep_selection = document.getElementsByClassName('repetition_selected');
+  
+
+  // Clone Input Requirements
+  var clickCountInput = 0
+    add_collection.addEventListener('click', function(){
+      clickCountInput += 1
+      var cloneInputDiv = workout_input_fields.cloneNode(true);
+      var cloneDivSelectTypeInput = cloneInputDiv.children[0].firstElementChild
+
+      cloneDivSelectTypeInput.id = "workout_id" + '_' + clickCountInput
+      cloneInputDiv.id = "input_div_" + clickCountInput //this needs to be randomized/unique
+      workout_input_div.appendChild(cloneInputDiv);
+    })
+  //
+  // Ajax Submit
+    submitWorkout.addEventListener('click', function(){ 
+      //exercise 
+        excercise_array = []
+        for (var i =0; i < exercises_selected.length; i++){
+          exercise_id = exercises_selected[i].options[exercises_selected[i].selectedIndex].value
+          excercise_array.push(exercise_id)
+        };
+
+        rep_array = []
+        for (var i =0; i < rep_selection.length; i++){
+          rep_id = rep_selection[i].options[rep_selection[i].selectedIndex].value
+          rep_array.push(rep_id)
+        };
+
+
+            var mydata = {
+                title: workout_title.value,
+                notes: workout_notes.value,
+                exercises: excercise_array,
+                rep: rep_array
+            }   
+
+             Rails.ajax({
+                  type: "POST", 
+                  url: "/create_workout",  
+                  data: new URLSearchParams(mydata).toString(), 
+              })
+    })
+
+</script>

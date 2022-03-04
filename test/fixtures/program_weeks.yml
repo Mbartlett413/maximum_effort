@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: MyString
+  program: one
+  active_week: false
+
+two:
+  title: MyString
+  program: two
+  active_week: false

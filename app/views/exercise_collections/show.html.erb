@@ -1,0 +1,18 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Program workout:</strong>
+  <%= @exercise_collection.program_workout %>
+</p>
+
+<p>
+  <strong>Exercise:</strong>
+  <%= @exercise_collection.exercise_id %>
+</p>
+<p>
+  <strong>Rep:</strong>
+  <%= @exercise_collection.repetition_id %>
+</p>
+
+<%= link_to 'Edit', edit_exercise_collection_path(@exercise_collection) %> |
+<%= link_to 'Back', exercise_collections_path %>

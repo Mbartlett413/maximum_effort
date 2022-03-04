@@ -1,0 +1,16 @@
+<p id="notice"><%= notice %></p>
+
+
+<%= @dummy_workout_collection.inspect %>
+<p>
+  <strong>Exercise:</strong>
+  <%= @dummy_workout_collection.exercise_id %>
+</p>
+
+<p>
+  <strong>Dummy repetition:</strong>
+  <%= @dummy_workout_collection.dummy_repetition_id %>
+</p>
+
+<%= link_to 'Edit', edit_dummy_workout_collection_path(@dummy_workout_collection) %> |
+<%= link_to 'Back', dummy_workout_collections_path %>

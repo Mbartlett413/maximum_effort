@@ -1,0 +1,36 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Exercise Collections</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Program workout</th>
+      <th>exercise</th>
+      <th>repetition</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @exercise_collections.each do |exercise_collection| %>
+      <tr>
+        <td><%= exercise_collection.program_workout.title %></td>
+        <td>
+          <%= Exercise.find(exercise_collection.exercise_id).title %>
+        </td>
+        <td>
+          <%= Repetition.find(exercise_collection.repetition_id).set_value %> x <%= Repetition.find(exercise_collection.repetition_id).rep_value %>
+
+        </td>
+        <td><%= link_to 'Show', exercise_collection %></td>
+        <td><%= link_to 'Edit', edit_exercise_collection_path(exercise_collection) %></td>
+        <td><%= link_to 'Destroy', exercise_collection, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Exercise Collection', new_exercise_collection_path %>

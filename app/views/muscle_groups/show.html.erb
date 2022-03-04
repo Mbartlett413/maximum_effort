@@ -1,0 +1,16 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @muscle_group.muscle_title %>
+</p>
+
+<p>
+  <strong>Primary muscle:</strong>
+  <%= @muscle_group.region.title %>
+</p>
+
+
+
+<%= link_to 'Edit', edit_muscle_group_path(@muscle_group) %> |
+<%= link_to 'Back', muscle_groups_path %>

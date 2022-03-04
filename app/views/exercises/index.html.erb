@@ -1,0 +1,45 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Exercises</h1>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th> user </th>
+      <th> title </th>
+      <th> primary_muscle </th>
+      <th> secondary_muscle </th>
+      <th> region_id </th>
+      <th> primary_exercise </th>
+      <th> accessory_exercise </th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @exercises.each do |exercise| %>
+      <tr>
+        <td> <%= exercise.user %> </td>
+        <td> <%= exercise.title %> </td>
+        <td> <%= exercise.primary_muscle %> </td>
+        <td> <%= exercise.secondary_muscle %> </td>
+        <td> <%= exercise.region_id %> </td>
+        <td> <%= exercise.primary_exercise %> </td>
+        <td> <%= exercise.accessory_exercise %> </td>
+        <td><%= link_to 'Show', exercise %></td>
+        <td><%= link_to 'Edit', edit_exercise_path(exercise) %></td>
+        <td><%= link_to 'Destroy', exercise, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Exercise', new_exercise_path %>
+
+
+
+
+
+

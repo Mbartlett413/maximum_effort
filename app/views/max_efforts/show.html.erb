@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>User:</strong>
+  <%= @max_effort.user %>
+</p>
+
+<p>
+  <strong>Exercise:</strong>
+  <%= @max_effort.exercise_id %>
+</p>
+
+<p>
+  <strong>Max value:</strong>
+  <%= @max_effort.max_value %>
+</p>
+
+<%= link_to 'Edit', edit_max_effort_path(@max_effort) %> |
+<%= link_to 'Back', max_efforts_path %>

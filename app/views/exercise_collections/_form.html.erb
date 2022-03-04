@@ -1,0 +1,18 @@
+
+<%= simple_form_for(@exercise_collection) do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+
+  <div class="form-inputs">
+	<%= f.association :program_workout %>
+
+	<%= f.input :exercise_id, :collection => @exercises, :label_method => :title, :value_method => :id %>
+
+	<%= f.input :repetition_id, :collection => @repetitions, :label_method => :set_value, :value_method => :id %>
+
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>

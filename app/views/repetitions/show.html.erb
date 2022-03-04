@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>User:</strong>
+  <%= @repetition.user %>
+</p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @repetition.title %>
+</p>
+
+<%= link_to 'Edit', edit_repetition_path(@repetition) %> |
+<%= link_to 'Back', repetitions_path %>
+
+
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <td>Set Value</td>
+      <td>%/#</td>
+      <td>Rep Value</td>
+    </tr>
+  </thead>
+  <tbody>
+    <% @repetition.repetition_collections.each do |x| %>
+        <tr>
+          <td> <%= x.set_value %></td>
+          <td> <%= x.percent_based == true ? '%' : 'lbs' %></td>
+          <td> <%= x.rep_value %></td>
+        </tr>
+    <% end %>
+  </tbody>
+</table>

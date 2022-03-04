@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: MyString
+  primary_muscle: MyString
+  secondary_muscle_string: MyString
+
+two:
+  title: MyString
+  primary_muscle: MyString
+  secondary_muscle_string: MyString

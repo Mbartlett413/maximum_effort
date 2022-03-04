@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+
+<p>  <strong>User:</strong> <%= @exercise.user %>  </p>
+<p>  <strong>Exercise Title</strong><%= @exercise.title %>  </p>
+<p>  <strong>Primary </strong><%= @exercise.primary_muscle %>  </p>
+<p>  <strong>Secondary </strong><%= @exercise.secondary_muscle %>  </p>
+<p>  <strong>Region </strong><%= @exercise.region.title %>  </p>
+<p>  <strong>Primary Movement</strong><%= @exercise.primary_exercise %>  </p>
+<p>  <strong>Accessory Movement </strong><%= @exercise.accessory_exercise %>  </p>
+
+
+
+
+<%= link_to 'Edit', edit_exercise_path(@exercise) %> |
+<%= link_to 'Back', exercises_path %>
+ 
+
+

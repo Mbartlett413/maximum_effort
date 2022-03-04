@@ -1,0 +1,1 @@
+json.partial! "dummy_repetition_collections/dummy_repetition_collection", dummy_repetition_collection: @dummy_repetition_collection

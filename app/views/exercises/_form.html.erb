@@ -1,0 +1,22 @@
+
+<%= simple_form_for(@exercise) do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+
+  <div class="form-inputs">
+    <%= f.association :user %>
+    <%= f.input :title %>
+
+    <%= f.input :primary_muscle, :collection => @muscle_groups, :label_method => :muscle_title, :value_method => :id %>
+
+    <%= f.input :secondary_muscle, :collection => @muscle_groups, :label_method => :muscle_title, :value_method => :id %>
+
+    <%= f.input :region_id, :collection => @regions, :label_method => :title, :value_method => :id %>
+    <%= f.input :primary_exercise %>
+    <%= f.input :accessory_exercise  %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>  

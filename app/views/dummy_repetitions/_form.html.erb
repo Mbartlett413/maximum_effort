@@ -1,0 +1,104 @@
+
+<%= simple_form_for(@dummy_repetition) do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+
+  <div class="form-inputs">
+    <%= f.input :title %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <td>Set_Value</td>
+      <td>Percent?</td>
+      <td>Rep Value</td>
+      <td>id</td>
+    </tr>
+  </thead>
+
+  <tbody>
+  <% @dummy_repetition.dummy_repetition_collections.each do |drc| %>
+    <tr>
+      <td>
+        <input type="" name="" onchange="on_change_listener('set_value', '<%= drc.id %>')" class="rep_listener" id="set_value_<%= drc.id %>" placeholder="<%= drc.set_value %>">    
+      </td>
+
+      <td class="rep_listener" id="percent-based_<%= drc.id %>">
+        <% if  drc.percent_based == true %>
+          <input type="checkbox" name="" onchange="on_change_listener('percent_value', '<%= drc.id %>')" class="rep_listener" id="percent_value_<%= drc.id %>" checked>
+        <% else %>
+          <input type="checkbox" name="" onchange="on_change_listener('percent_value', '<%= drc.id %>')" class="rep_listener" id="percent_value_<%= drc.id %>">
+        <% end %>
+
+      </td>
+
+      <td class="rep_listener" id="rep-value_<%= drc.id %>">
+        <input type="" name="" onchange="on_change_listener('rep_value', '<%= drc.id %>')" class="rep_listener" id="rep_value_<%= drc.id %>" placeholder="<%= drc.rep_value %>">   
+      </td>
+
+      <td><%= drc.id %></td>
+    </tr>
+  <% end %> 
+  </tbody>
+  
+</table>
+
+<!-- Modal --> 
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add A New Row</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <%= simple_form_for(@drc) do |f| %>
+          <%= f.error_notification %>
+          <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+
+          <p> HERE: <%= @dummy_repetition.id %> </p>
+          <div class="form-inputs">
+            <%= f.input :dummy_repetition_id, input_html: {:value => @dummy_repetition.id } %>
+            <%= f.input :set_value %>
+            <%= f.input :percent_based %>
+            <%= f.input :rep_value %>
+          </div>
+
+          <div class="form-actions">
+            <%= f.button :submit %>
+          </div>
+        <% end %>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <button class="btn btn-primary" onclick="add_row_drc()">Add Row</button>
+
+
+
+
+<script type="text/javascript">
+  
+  function add_row_drc(){
+    $('#exampleModal').modal('toggle')
+  }
+
+
+
+
+
+  
+</script>

@@ -1,0 +1,33 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Dummy Repetition Collections</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Dummy repetition</th>
+      <th>Set value</th>
+      <th>Percent based</th>
+      <th>Rep value</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @dummy_repetition_collections.each do |dummy_repetition_collection| %>
+      <tr>
+        <td><%= dummy_repetition_collection.dummy_repetition %></td>
+        <td><%= dummy_repetition_collection.set_value %></td>
+        <td><%= dummy_repetition_collection.percent_based %></td>
+        <td><%= dummy_repetition_collection.rep_value %></td>
+        <td><%= link_to 'Show', dummy_repetition_collection %></td>
+        <td><%= link_to 'Edit', edit_dummy_repetition_collection_path(dummy_repetition_collection) %></td>
+        <td><%= link_to 'Destroy', dummy_repetition_collection, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Dummy Repetition Collection', new_dummy_repetition_collection_path %>

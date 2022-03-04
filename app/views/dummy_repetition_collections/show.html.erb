@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Dummy repetition:</strong>
+  <%= @dummy_repetition_collection.dummy_repetition %>
+</p>
+
+<p>
+  <strong>Set value:</strong>
+  <%= @dummy_repetition_collection.set_value %>
+</p>
+
+<p>
+  <strong>Percent based:</strong>
+  <%= @dummy_repetition_collection.percent_based %>
+</p>
+
+<p>
+  <strong>Rep value:</strong>
+  <%= @dummy_repetition_collection.rep_value %>
+</p>
+
+<%= link_to 'Edit', edit_dummy_repetition_collection_path(@dummy_repetition_collection) %> |
+<%= link_to 'Back', dummy_repetition_collections_path %>

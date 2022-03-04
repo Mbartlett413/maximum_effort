@@ -1,0 +1,32 @@
+
+<%= simple_form_for(@dummy_workout) do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+
+  <div class="form-inputs">
+    <%= f.association :user %>
+    <%= f.input :title %>
+    <%= f.association :program_day %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>
+
+
+
+<div>
+  <% @dummy_workout.dummy_workout_collections.each do |x| %>
+
+    <ul >
+      <li style="display: inline-block;">
+        Exercise: <%= Exercise.find(x.exercise_id).title %>
+      </li>
+      <li style="display: inline-block;">
+        Repetitions: <%= DummyRepetition.find(x.dummy_repetition_id ).title %>
+        <%= link_to 'Edit Rep', edit_dummy_repetition_path(x.dummy_repetition_id) %>
+      </li>
+    </ul>
+  <% end %>
+</div>

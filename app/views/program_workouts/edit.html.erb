@@ -1,0 +1,103 @@
+<h1>Editing Program Workout</h1>
+
+<div class="container">
+	<div class="row">
+		<div class="col">
+			<%= simple_form_for(@program_workout) do |f| %>
+			  <%= f.error_notification %>
+			  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+
+			  <div class="form-inputs">
+			    <%= f.input :title %>
+			    <%= f.input :workout_notes %>
+			  </div>
+
+			  <div class="form-actions">
+			    <%= f.button :submit %> 
+			  </div>
+			<% end %>
+		</div>
+	</div>
+
+
+  <div class="row">
+    <div class="col">
+      <h5 style="text-align: center;">Current</h5>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <td>exercise_id</td>
+            <td>repetition_id</td>
+            <td>Modify</td>
+          </tr>
+        </thead>
+        <tbody>
+          <% @program_workout.exercise_collections.each do |ec| %>
+            <tr>
+              <td><%= ec.exercise_id %></td>
+              <td><%= ec.repetition_id %></td>
+              <td>
+                <button onclick="modify_exercise_collection(<%= ec.id %>, 'edit')">Modify</button>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div> 
+
+<button onclick="modify_exercise_collection( <%= @program_workout.id %>, 'add')">Add Row</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exercise_collection_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modify Workout Row</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="ec_update">
+        ...
+      </div>
+      <div class="modal-footer">
+        <h1>Stay Strong</h1>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript"> 
+
+  function modify_exercise_collection(object_id, click_action) {
+
+    $('#exercise_collection_modal').modal('toggle')
+    if (click_action == 'edit'){
+	    var mydata = {
+	    	user_action: 'edit',
+	      exercise_collection_id: object_id
+	    }   
+
+	     Rails.ajax({
+	          type: "POST", 
+	          url: "/update_exercise_collection", 
+	          data: new URLSearchParams(mydata).toString(), 
+	      })
+    }else {
+
+	    var mydata = {
+	      user_action: 'add',
+	      program_workout_id: object_id
+	    }   
+
+	     Rails.ajax({
+	          type: "POST", 
+	          url: "/update_exercise_collection", 
+	          data: new URLSearchParams(mydata).toString(), 
+	      })
+    }
+
+  } 
+</script>

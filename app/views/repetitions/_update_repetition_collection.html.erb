@@ -1,0 +1,18 @@
+
+<%= simple_form_for(@repetition_collection) do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+
+  <div class="form-inputs">
+  	<% if @action_set == 'add' %>
+    <%= f.input :repetition_id, input_html: {:value => @repetition.id }  %>
+    <% end %>
+    <%= f.input :set_value %>
+    <%= f.input :percent_based %>
+    <%= f.input :rep_value %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>

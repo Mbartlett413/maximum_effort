@@ -1,0 +1,279 @@
+<p id="notice"><%= notice %></p>
+ 
+
+<div class="container">
+  <div class="row">
+    <div class="col">
+
+      <div class="jumbotron">
+        <h1 class="display-4"><%= @program.title %></h1>
+        <p class="lead">This Program is <%= @program.number_of_weeks %> Weeks Long, and you will train <%= @program.days_per_week %> days per week!</p>
+        <hr class="my-4">
+  <p class="lead">
+    <button class="btn btn-primary" onclick="add_week_to_program()"> Add Week</button>
+  </p>
+      </div>
+
+  </div>
+
+  <hr>
+
+  <div class="row">
+    <div class="col">
+        <% @program.program_weeks.each do |week| %>
+            <h5><%= week.title %></h5>
+            <% week.program_days.each do |day| %>
+                   <%if day.dummy_workout_id.present? %> 
+
+                          <p style="text-align: center;"><%= day.title %> </p>
+                           <p style="text-align: center;"><b><%= day.dummy_workout.title%></b>
+                            <hr>
+                          <button class="btn btn-primary" onclick="modify_constructor(<%=day.id %>,0,0)"> Add Row</button>
+                          <button class="btn btn-primary" onclick="add_day_to_week(<%= week.id %>)"> Add Day</button>
+                          <table class="table table-striped" >
+                            <thead>
+                              <tr>
+                                <td>Exercise</td>
+                                <td>Modify</td>
+                                <td >Rep Set</td>
+                                <td>Modify</td>
+                              </tr>
+                            </thead> 
+
+
+                            <tbody>
+                              <% day.dummy_workout.dummy_workout_collections.each do |ec| %>
+                                <tr>
+                                  <td>
+                                    <%= ec.exercise_id %>  
+                                  </td> 
+                                  <td>
+                                    <button class="btn btn-primary" onclick="modify_constructor(<%=day.id %>,'exercise',<%= ec.id%>)">Exercise/Notes</button>
+                                  </td>
+                                  <td> 
+                                    <% ec.dummy_repetition.dummy_repetition_collections.each do |drc| %>
+                                      <%= "#{drc.set_value}" + "#{ drc.percent_based == true ? '%' : 'lbs'}" + "#{drc.rep_value}" %>
+                                    <% end %>
+                                  </td>
+                                  <td>
+                                    <button class="btn btn-primary" onclick="modify_constructor( <%= day.id %>, 'rep', <%= ec.dummy_repetition.id %>)"> Mod Rep</button>
+                                  </td>
+                                </tr>
+                              <% end %>
+                            </tbody>
+                            <!-- to make sure there is a workout associated with day %> -->
+                            <% if day.dummy_workout.dummy_workout_collections.length == 0 %>
+                              <tbody>
+                                  <tr>
+                                    <td colspan="2">
+                                        <select id="selection_<%= day.id %>">
+                                          <option>Select</option>
+                                         <%= options_for_select(@program_workouts.collect{ |u| [u.title, u.id]}) %></select>
+                                      </td>
+                                    
+                                      <td colspan="2"><button onclick="assign_workout(<%= day.id %>)">Assign</button></td>
+                                  </tr>
+                              </tbody>
+                            <% end %>
+
+                          </table>
+
+                    <% else %>
+                            <p><%= day.title %></p>
+                            <!-- Add Workout -->
+                            <table class=" table table-striped" >
+                              <tbody>
+                                <tr>
+                                  <td>
+                                      <select id="selection_<%= day.id %>">
+                                        <option>Select</option>
+                                       <%= options_for_select(@program_workouts.collect{ |u| [u.title, u.id]}) %></select>
+                                    </td>
+                                  
+                                    <td><button onclick="assign_workout(<%= day.id %>)">Assign</button></td>
+                                </tr>
+                              </tbody>
+                            </table>
+                    <% end %><!-- end if -->
+            <% end %><!-- end day loop -->
+        <% end %><!-- end week loop -->
+    </div>
+  </div>
+
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modify Program</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="toggle_update">
+        ...
+      </div>
+      <div class="modal-footer">
+        <h1>Stay Strong</h1>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+
+  function assign_workout(day_id){
+
+    console.log("here", day_id)
+    var selection = document.getElementById('selection_'+ day_id); 
+    selection_id = selection.options[selection.selectedIndex].value
+
+    console.log("selection", selection)
+    console.log("selection", selection_id)
+
+
+    //Assigning a workout will 
+    // take a workout and exercise_collection
+    // create a duplication dummy_workout, dummy_workout_collection, dummy_repetition, dummy_repetition_collection
+    // assign these to a program_day
+    //only need workout & day_id 
+            var mydata = {
+              day_id: day_id,
+              workout_id: selection_id
+            }   
+
+             Rails.ajax({
+                  type: "POST", 
+                  url: "/assign_workout", 
+                  data: new URLSearchParams(mydata).toString(), 
+              })
+  }
+
+  function modify_constructor( day, object_type, object_id){
+    console.log("here", day, object_type, object_id)
+    $('#exampleModal').modal('toggle')
+
+    if (object_id == 0 && object_type == 0){
+            var mydata = {
+              program_action: 'add_workout_collection',
+              day_id: day,
+            }   
+
+             Rails.ajax({
+                  type: "POST", 
+                  url: "/update_program", 
+                  data: new URLSearchParams(mydata).toString(), 
+              })
+      // add a dummy workout collection
+      //program_day.dummy_workout. add dummy workout_collection
+    } else {
+      switch(object_type){
+        case 'exercise':
+          console.log("exercise")
+            var mydata = {
+              program_action: object_type,
+              day_id: day,
+              dwc_id: object_id //dummy_workout_collection.id
+            }   
+
+             Rails.ajax({
+                  type: "POST", 
+                  url: "/update_program", 
+                  data: new URLSearchParams(mydata).toString(), 
+              })
+          //modify dummy_workout_collection
+        break;
+        case 'rep':
+          console.log("rep")
+            var mydata = {
+              program_action: object_type,
+              day_id: day,
+              dr_id: object_id //dummy_repetition.id
+            }   
+
+             Rails.ajax({
+                  type: "POST", 
+                  url: "/update_program", 
+                  data: new URLSearchParams(mydata).toString(), 
+              })
+
+
+        break;
+      }
+
+
+    }
+    // day will be used to add a row
+    //take the type and 
+
+
+    //update_program
+  }
+
+  function on_change_listener(arg, data){
+    build_id = arg + '_'+ data
+    current_selection = document.getElementById(build_id)
+    console.log("here", current_selection.value)
+
+    if (arg == 'percent_value'){
+      passed_value = current_selection.checked
+    } else {
+      passed_value = current_selection.value
+    }
+
+    var mydata = {
+      dummy_id: data,
+      selection: arg,
+      update_value: passed_value
+    }   
+
+     Rails.ajax({
+          type: "POST", 
+          url: "/update_dummy", 
+          data: new URLSearchParams(mydata).toString(), 
+      })
+
+
+    //update dummy_rep_id #id and value 
+  };
+
+  function add_day_to_week(week_id) { 
+    $('#exampleModal').modal('toggle')
+
+      var mydata = {
+        week_id: week_id,
+      }   
+
+       Rails.ajax({
+            type: "POST", 
+            url: "/add_day_to_program", 
+            data: new URLSearchParams(mydata).toString(), 
+        })
+  }
+
+
+
+  function add_week_to_program(program_id){
+    $('#exampleModal').modal('toggle')
+
+      var mydata = {
+        program_id: program_id,
+      }   
+
+       Rails.ajax({
+            type: "POST", 
+            url: "/add_week_to_program", 
+            data: new URLSearchParams(mydata).toString(), 
+        })
+
+  }
+  
+</script>
+
+
+
+
+
+

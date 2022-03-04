@@ -1,0 +1,33 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Repetition Collections</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Repetition</th>
+      <th>Set value</th>
+      <th>Percent based</th>
+      <th>Rep value</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @repetition_collections.each do |repetition_collection| %>
+      <tr>
+        <td><%= repetition_collection.repetition %></td>
+        <td><%= repetition_collection.set_value %></td>
+        <td><%= repetition_collection.percent_based %></td>
+        <td><%= repetition_collection.rep_value %></td>
+        <td><%= link_to 'Show', repetition_collection %></td>
+        <td><%= link_to 'Edit', edit_repetition_collection_path(repetition_collection) %></td>
+        <td><%= link_to 'Destroy', repetition_collection, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Repetition Collection', new_repetition_collection_path %>

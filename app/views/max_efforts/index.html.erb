@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Max Efforts</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>User</th>
+      <th>Exercise</th>
+      <th>Max value</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @max_efforts.each do |max_effort| %>
+      <tr>
+        <td><%= max_effort.user %></td>
+        <td><%= max_effort.exercise_id %></td>
+        <td><%= max_effort.max_value %></td>
+        <td><%= link_to 'Show', max_effort %></td>
+        <td><%= link_to 'Edit', edit_max_effort_path(max_effort) %></td>
+        <td><%= link_to 'Destroy', max_effort, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Max Effort', new_max_effort_path %>

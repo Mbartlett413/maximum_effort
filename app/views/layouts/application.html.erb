@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>MaximumEffort</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  </head>
+
+  <body>
+
+
+<div id="mySidenav" class="sidenav">
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+<ul class="list-group">
+    <li class="list-group-item">
+      <%= link_to 'programs', programs_path %>
+    </li>
+
+    <li class="list-group-item"> 
+      <%= link_to 'program_workouts', program_workouts_path %>
+    </li>
+    <li class="list-group-item"> 
+      <%= link_to 'repetitions', repetitions_path  %>
+    </li>
+    <li class="list-group-item"> 
+      <%= link_to 'exercises', exercises_path %>
+    </li>
+
+    <li class="list-group-item">
+      <%= link_to 'muscle_groups', muscle_groups_path %>
+    </li>
+
+    <li class="list-group-item">
+      <%= link_to 'regions', regions_path %>
+    </li>
+
+    <li class="list-group-item">
+      <%= link_to 'max_efforts', max_efforts_path %>
+    </li>
+    <li class="list-group-item">
+      <% if current_user.present? %>
+      
+      <%= link_to 'sign_out', new_user_session_path  %>
+      <% else %>
+      <!-- destroy_user_session -->
+      <%= link_to 'sign in', new_user_session_path  %>
+      <% end %>
+    </li>
+</ul>
+</div>
+
+<!-- Use any element to open the sidenav -->
+<span onclick="openNav()">open</span>
+
+       <p class="notice"><%= notice %></p>
+       <p class="alert"><%= alert %></p>
+
+    <%= yield %>
+  </body>
+</html>
+
+
+<script type="text/javascript">
+  /* Set the width of the side navigation to 250px */
+function openNav() {
+  document.getElementById("mySidenav").style.width = "250px";
+}
+
+/* Set the width of the side navigation to 0 */
+function closeNav() {
+  document.getElementById("mySidenav").style.width = "0";
+}
+</script>
+
+

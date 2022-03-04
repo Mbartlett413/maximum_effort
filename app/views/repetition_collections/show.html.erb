@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Repetition:</strong>
+  <%= @repetition_collection.repetition %>
+</p>
+
+<p>
+  <strong>Set value:</strong>
+  <%= @repetition_collection.set_value %>
+</p>
+
+<p>
+  <strong>Percent based:</strong>
+  <%= @repetition_collection.percent_based %>
+</p>
+
+<p>
+  <strong>Rep value:</strong>
+  <%= @repetition_collection.rep_value %>
+</p>
+
+<%= link_to 'Edit', edit_repetition_collection_path(@repetition_collection) %> |
+<%= link_to 'Back', repetition_collections_path %>
