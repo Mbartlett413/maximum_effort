@@ -1,4 +1,9 @@
+# For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+
+
 Rails.application.routes.draw do
+
+  root to: "programs#index"
   resources :regions
   resources :dummy_repetition_collections
   resources :dummy_workout_collections
@@ -14,13 +19,19 @@ Rails.application.routes.draw do
   resources :program_days
   resources :program_weeks
   resources :programs
-  devise_for :users
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
- root to: "programs#index"
+
+  devise_for :users, controllers: {
+    sessions: 'users/sessions'
+  }
+
+  namespace :api do
+    namespace :v1 do
+       get 'ip_statistics', to: 'statistics#ip_statistics'
+    end
+  end 
 
  post 'create_workout', to: 'program_workouts#create_workout'
  post 'assign_workout', to: 'programs#assign_workout'
-
  #dummy
  post 'update_dummy', to: 'programs#update_dummy'
 
