@@ -6,6 +6,8 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
+admin_user = User.create(email: 'johndoe@test.com', password: 'password')
+
 neck = Region.create(title: "Neck" )
 MuscleGroup.create( muscle_title: "Levator scapulae", region_id: neck.id)
 MuscleGroup.create( muscle_title: "Sternocleidomastoid (SCM) ", region_id: neck.id)
@@ -14,7 +16,7 @@ MuscleGroup.create( muscle_title: "Deep cervical flexors", region_id: neck.id)
 MuscleGroup.create( muscle_title: "Suboccipitals", region_id: neck.id)
 
 chest = Region.create(title: "Chest" )
-MuscleGroup.create( muscle_title: "Pectoralis Major", region_id: chest.id)
+pec = MuscleGroup.create( muscle_title: "Pectoralis Major", region_id: chest.id)
 MuscleGroup.create( muscle_title: "Pectoralis Minor", region_id: chest.id)
 MuscleGroup.create( muscle_title: "Serratus Anterior", region_id: chest.id)
 MuscleGroup.create( muscle_title: "Subclavius", region_id: chest.id)
@@ -39,15 +41,32 @@ MuscleGroup.create( muscle_title: "internal oblique muscles", region_id: core.id
 
 
 legs = Region.create(title: "Legs" )
-MuscleGroup.create( muscle_title: "Quadriceps", region_id: legs.id)
-MuscleGroup.create( muscle_title: "Hamstrings", region_id: legs.id)
+quad = MuscleGroup.create( muscle_title: "Quadriceps", region_id: legs.id)
+ham = MuscleGroup.create( muscle_title: "Hamstrings", region_id: legs.id)
 MuscleGroup.create( muscle_title: "Calves", region_id: legs.id)
-MuscleGroup.create( muscle_title: "Glutes", region_id: legs.id)
+glute = MuscleGroup.create( muscle_title: "Glutes", region_id: legs.id)
 
 arms = Region.create( title: 'Arms')
 MuscleGroup.create( muscle_title: "Bicep", region_id: arms.id)
-MuscleGroup.create( muscle_title: "Tricep", region_id: arms.id)
+tri = MuscleGroup.create( muscle_title: "Tricep", region_id: arms.id)
 MuscleGroup.create( muscle_title: "Forearm", region_id: arms.id)
+
+Exercise.create(user_id: admin_user.id, title: 'squat', primary_muscle: glute.id, secondary_muscle: quad.id, region_id: legs.id, primary_exercise: true, accessory_exercise: false)
+Exercise.create(user_id: admin_user.id, title: 'bench', primary_muscle: pec.id, secondary_muscle: tri.id, region_id: chest.id, primary_exercise: true, accessory_exercise: false)
+Exercise.create(user_id: admin_user.id, title: 'deadlift', primary_muscle: quad.id, secondary_muscle: ham.id, region_id: legs.id, primary_exercise: true, accessory_exercise: false)
+
+# 3 by 10, 4 by 12 
+threeTen = Repetition.create(user_id: admin_user.id, title: '3 by 10')
+RepetitionCollection.create(repetition_id: threeTen.id, set_value: 75, percent_based: true, rep_value: 10)
+RepetitionCollection.create(repetition_id: threeTen.id, set_value: 75, percent_based: true, rep_value: 10)
+RepetitionCollection.create(repetition_id: threeTen.id, set_value: 75, percent_based: true, rep_value: 10)
+
+fourTwelve = Repetition.create(user_id: admin_user.id, title: '4 by 12')
+RepetitionCollection.create(repetition_id: fourTwelve.id, set_value: 70, percent_based: true, rep_value: 12)
+RepetitionCollection.create(repetition_id: fourTwelve.id, set_value: 70, percent_based: true, rep_value: 12)
+RepetitionCollection.create(repetition_id: fourTwelve.id, set_value: 70, percent_based: true, rep_value: 12)
+RepetitionCollection.create(repetition_id: fourTwelve.id, set_value: 70, percent_based: true, rep_value: 12)
+
 
 
 

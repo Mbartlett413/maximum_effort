@@ -38,13 +38,13 @@
       <%= link_to 'regions', regions_path %>
     </li>
 
-    <li class="list-group-item">
+    <li class="list-group-item"> 
       <%= link_to 'max_efforts', max_efforts_path %>
     </li>
     <li class="list-group-item">
       <% if current_user.present? %>
       
-      <%= link_to 'sign_out', new_user_session_path  %>
+      <%= link_to 'sign_out', destroy_user_session_path, :method => :delete %>
       <% else %>
       <!-- destroy_user_session -->
       <%= link_to 'sign in', new_user_session_path  %>
@@ -75,5 +75,4 @@ function closeNav() {
   document.getElementById("mySidenav").style.width = "0";
 }
 </script>
-
 
